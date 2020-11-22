@@ -18,4 +18,5 @@ def read_root():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
+# TODO create update item endpoint
 # @app.put("/items")
