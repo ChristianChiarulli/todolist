@@ -33,7 +33,7 @@ def read_item(item_id: str):
 
 
 @app.get("/items")
-def create_item(user: Optional[str] = None, tags: Optional[str] = None):
+def read_items(user: Optional[str] = None, tags: Optional[str] = None):
     filter = {}
     if user:
         filter = {"user": user}
