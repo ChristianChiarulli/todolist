@@ -15,8 +15,8 @@ db = client.todolist
 class Item(BaseModel):
     user: str
     task: str
-    date: datetime.date
-    time: datetime.time
+    # date: datetime.date
+    # time: datetime.time
     tags: Optional[List[str]]
 
 
