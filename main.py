@@ -15,8 +15,8 @@ db = client.todolist
 class Item(BaseModel):
     user: str
     task: str
-    # date: datetime.date
-    # time: datetime.time
+    created_date: datetime.date = datetime.datetime.today()
+    due_date: datetime.date = None
     tags: Optional[List[str]]
 
 
@@ -39,6 +39,8 @@ def read_items(user: Optional[str] = None, tags: Optional[str] = None):
         filter = {"user": user}
     if tags:
         filter = {"tags": tags}
+    if user and tags:
+        filter = {"user": user, "tags": tags}
     items = []
     for item in db.items.find(filter):
         item["_id"] = str(item["_id"])
@@ -49,7 +51,8 @@ def read_items(user: Optional[str] = None, tags: Optional[str] = None):
 @app.put("/items/{item_id}")
 def update_item(item_id: str, item: Item):
     filter = {"_id": ObjectId(item_id)}
-    update_item = {"$set": dict(item)}
+    item = {k:v for k,v in dict(item).items() if v is not None}
+    update_item = {"$set": item}
     return {"modified_count": db.items.update_one(filter, update_item).modified_count}
 
 
